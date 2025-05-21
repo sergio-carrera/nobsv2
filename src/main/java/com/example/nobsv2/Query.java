@@ -1,4 +1,4 @@
-package com.example.nobsv2.product;
+package com.example.nobsv2;
 
 import org.springframework.http.ResponseEntity;
 
