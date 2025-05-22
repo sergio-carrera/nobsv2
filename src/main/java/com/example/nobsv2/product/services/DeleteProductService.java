@@ -21,15 +21,11 @@ public class DeleteProductService implements Command<Integer, Void> {
 
     @Override
     public ResponseEntity<Void> execute(Integer id) {
-        //productRepository.deleteById(id);
-
         Optional<Product> productOptional = productRepository.findById(id);
-
         if (productOptional.isPresent()) {
             productRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-
         //later will throw a product not found exception
         return null;
     }
