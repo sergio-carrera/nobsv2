@@ -1,9 +1,13 @@
 package com.example.nobsv2.product;
 
+import com.example.nobsv2.product.exceptions.ProductNotFoundException;
+import com.example.nobsv2.product.model.ErrorResponse;
 import com.example.nobsv2.product.model.Product;
 import com.example.nobsv2.product.model.ProductDTO;
 import com.example.nobsv2.product.model.UpdateProductCommand;
 import com.example.nobsv2.product.services.*;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

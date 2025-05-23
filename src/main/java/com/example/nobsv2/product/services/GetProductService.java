@@ -2,6 +2,7 @@ package com.example.nobsv2.product.services;
 
 import com.example.nobsv2.Query;
 import com.example.nobsv2.product.ProductRepository;
+import com.example.nobsv2.product.exceptions.ProductNotFoundException;
 import com.example.nobsv2.product.model.Product;
 import com.example.nobsv2.product.model.ProductDTO;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,6 @@ public class GetProductService implements Query<Integer, ProductDTO> {
         }
 
         //In the future we will want to throw a Product not found exception
-        return null;
+        throw new ProductNotFoundException();
     }
 }
