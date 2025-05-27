@@ -1,5 +1,6 @@
 package com.example.nobsv2.product.exceptions;
 
+import com.example.nobsv2.mappings.exceptions.CustomerNotFoundException;
 import com.example.nobsv2.product.model.ErrorResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -29,6 +30,13 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorResponse handleProductNotValidException(ProductNotValidException exception) {
         return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorResponse handleCustomerNotFoundException(CustomerNotFoundException exception) {
+        return  new ErrorResponse(exception.getMessage());
     }
 
     /*
