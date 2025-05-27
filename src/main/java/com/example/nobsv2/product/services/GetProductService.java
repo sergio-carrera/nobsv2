@@ -25,6 +25,7 @@ public class GetProductService implements Query<Integer, ProductDTO> {
     }
 
     @Override
+    @Cacheable("productCache")
     public ResponseEntity<ProductDTO> execute(Integer input) {
         logger.info("Executing " + getClass() + " input: " + input);
         //Account for null value id db can't find it
