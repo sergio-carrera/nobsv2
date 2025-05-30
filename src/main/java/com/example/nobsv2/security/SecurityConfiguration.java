@@ -1,5 +1,6 @@
 package com.example.nobsv2.security;
 
+import com.example.nobsv2.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -36,45 +37,20 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                //Allows for POST, PUT, DELETE mappings with authentications
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
-                    //have to let the user create new without valid credentials
-                    authorize.requestMatchers("/createnewuser").permitAll();
-
-                    //must be at the bottom (idk why)
-                    authorize.anyRequest().authenticated();
+                    authorize.anyRequest().permitAll();
+//                    authorize.requestMatchers("/login").permitAll();
+//                    authorize.requestMatchers("/createnewuser").permitAll();
+//                    authorize.anyRequest().authenticated();
                 })
-                .addFilterBefore(
-                        new BasicAuthenticationFilter(authenticationManager(httpSecurity)),
-                        UsernamePasswordAuthenticationFilter.class
-                )
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
     }
 }
 
-//                    authorize.requestMatchers("/open").permitAll();
-//                    authorize.requestMatchers("/closed").authenticated();
-//                    authorize.requestMatchers(HttpMethod.POST, "/product").authenticated();
-//                    authorize.requestMatchers(HttpMethod.PUT, "/product/{id}").authenticated();
-//                    authorize.requestMatchers(HttpMethod.GET, "/special").hasAuthority("SPECIAL");
-//                    authorize.requestMatchers(HttpMethod.GET, "/basic").hasAnyAuthority("SPECIAL", "BASIC");
-
-//    @Bean
-//    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-//        UserDetails admin = User
-//                .withUsername("admin")
-//                .authorities("BASIC", "SPECIAL")
-//                .roles("superuser")
-//                .password(encoder.encode("1")) //Spring Boot no nos dejará usar texto raw para el apartado de la contraseña (tiene que estar encriptada)
-//                .build();
-//
-//        UserDetails user = User
-//                .withUsername("user")
-//                .authorities("BASIC")
-//                .roles("basicuser")
-//                .password(encoder.encode("2")) //Spring Boot no nos dejará usar texto raw para el apartado de la contraseña (tiene que estar encriptada)
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(admin,user);
-//    }
